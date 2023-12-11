@@ -17,7 +17,7 @@ func seedAdmins(db *gorm.DB) {
 		admins[i] = model.Admin{
 			Name:      fmt.Sprintf("Admin%d", i+1),
 			LoginId:   fmt.Sprintf("login%d", i+1),
-			Rore:      i%2 == 0,
+			Role:      i%2 == 0,
 			Status:    1,
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
