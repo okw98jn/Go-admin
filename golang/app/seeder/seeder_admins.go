@@ -11,9 +11,9 @@ import (
 func seedAdmins(db *gorm.DB) {
 	db.Exec("TRUNCATE TABLE admins")
 	// レコード数
-	dataLen := 10000
-	admins := make([]model.Admin, dataLen)
-	for i := 0; i < dataLen; i++ {
+	dataLength := 20000
+	admins := make([]model.Admin, dataLength)
+	for i := 0; i < dataLength; i++ {
 		admins[i] = model.Admin{
 			Name:      fmt.Sprintf("Admin%d", i+1),
 			LoginId:   fmt.Sprintf("login%d", i+1),
