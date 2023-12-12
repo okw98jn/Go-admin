@@ -9,6 +9,7 @@ import (
 type AdminRepositoryInterface interface {
 	GetAllAdmins(admins *[]model.Admin) error
 	GetAdminById(admin *model.Admin, adminId uint) error
+	CreateAdmin(admin *model.Admin) error
 	DeleteAdmin(adminId uint) error
 }
 
@@ -29,6 +30,13 @@ func (ar *adminRepository) GetAllAdmins(admins *[]model.Admin) error {
 
 func (ar *adminRepository) GetAdminById(admin *model.Admin, adminId uint) error {
 	if err := ar.db.Where("id = ?", adminId).First(admin).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (ar *adminRepository) CreateAdmin(admin *model.Admin) error {
+	if err := ar.db.Create(admin).Error; err != nil {
 		return err
 	}
 	return nil

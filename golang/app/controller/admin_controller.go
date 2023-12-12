@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"app/model"
 	"app/usecase"
 	"net/http"
 	"strconv"
@@ -11,6 +12,7 @@ import (
 type AdminControllerInterface interface {
 	GetAllAdmins(c echo.Context) error
 	GetAdminById(c echo.Context) error
+	CreateAdmin(c echo.Context) error
 	DeleteAdmin(c echo.Context) error
 }
 
@@ -38,6 +40,18 @@ func (ac *adminController) GetAdminById(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusOK, admin)
+}
+
+func (ac *adminController) CreateAdmin(c echo.Context) error {
+	admin := model.Admin{}
+	if err := c.Bind(&admin); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	adminRes, err := ac.adminUsecase.CreateAdmin(admin)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusCreated, adminRes)
 }
 
 func (ac *adminController) DeleteAdmin(c echo.Context) error {
