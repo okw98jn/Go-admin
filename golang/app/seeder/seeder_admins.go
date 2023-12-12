@@ -21,7 +21,6 @@ func seedAdmins(db *gorm.DB) {
 			Status:    1,
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			DeletedAt: time.Now(),
 		}
 	}
 
