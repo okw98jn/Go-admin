@@ -6,7 +6,7 @@ import (
 )
 
 type AdminUsecaseInterface interface {
-	GetAdminById(adminId uint) (model.Admin, error)
+	GetAdminById(adminId uint) (model.AdminResponse, error)
 }
 
 type adminUsecase struct {
@@ -17,21 +17,19 @@ func NewAdminUsecase(adminRepo repository.AdminRepositoryInterface) AdminUsecase
 	return &adminUsecase{adminRepo}
 }
 
-func (au *adminUsecase) GetAdminById(adminId uint) (model.Admin, error) {
+func (au *adminUsecase) GetAdminById(adminId uint) (model.AdminResponse, error) {
 	admin := model.Admin{}
 	if err := au.adminRepo.GetAdminById(&admin, adminId); err != nil {
-		return model.Admin{}, err
+		return model.AdminResponse{}, err
 	}
 
-	resAdmin := model.Admin{
+	resAdmin := model.AdminResponse{
 		Id:        admin.Id,
 		Name:      admin.Name,
 		LoginId:   admin.LoginId,
 		Role:      admin.Role,
 		Status:    admin.Status,
 		CreatedAt: admin.CreatedAt,
-		UpdatedAt: admin.UpdatedAt,
-		DeletedAt: admin.DeletedAt,
 	}
 	return resAdmin, nil
 }
