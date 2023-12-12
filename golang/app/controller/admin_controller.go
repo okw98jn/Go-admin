@@ -9,7 +9,9 @@ import (
 )
 
 type AdminControllerInterface interface {
+	GetAllAdmins(c echo.Context) error
 	GetAdminById(c echo.Context) error
+	DeleteAdmin(c echo.Context) error
 }
 
 type adminController struct {
@@ -20,6 +22,14 @@ func NewAdminController(adminUsecase usecase.AdminUsecaseInterface) AdminControl
 	return &adminController{adminUsecase}
 }
 
+func (ac *adminController) GetAllAdmins(c echo.Context) error {
+	admins, err := ac.adminUsecase.GetAllAdmins()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, admins)
+}
+
 func (ac *adminController) GetAdminById(c echo.Context) error {
 	id := c.Param("admin_id")
 	adminId, _ := strconv.Atoi(id)
@@ -28,4 +38,14 @@ func (ac *adminController) GetAdminById(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusOK, admin)
+}
+
+func (ac *adminController) DeleteAdmin(c echo.Context) error {
+	id := c.Param("admin_id")
+	adminId, _ := strconv.Atoi(id)
+	err := ac.adminUsecase.DeleteAdmin(uint(adminId))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.NoContent(http.StatusNoContent)
 }

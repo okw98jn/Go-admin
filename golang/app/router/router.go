@@ -8,6 +8,8 @@ import (
 
 func NewRouter(adminController controller.AdminControllerInterface) *echo.Echo {
 	e := echo.New()
+	e.GET("/admin/", adminController.GetAllAdmins)
 	e.GET("/admin/:admin_id", adminController.GetAdminById)
+	e.DELETE("/admin/:admin_id", adminController.DeleteAdmin)
 	return e
 }
