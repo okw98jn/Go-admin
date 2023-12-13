@@ -10,6 +10,7 @@ services:
             - db
         volumes:
             - ./golang/app:/go/src/app
+        command: sh -c 'go mod tidy && GO_ENV=dev air && GO_ENV=dev go run main.go'
         networks:
             - golang_network
 
