@@ -11,6 +11,7 @@ func NewRouter(adminController controller.AdminControllerInterface) *echo.Echo {
 	e.GET("/admin/", adminController.GetAllAdmins)
 	e.GET("/admin/:admin_id", adminController.GetAdminById)
 	e.POST("/admin/", adminController.CreateAdmin)
+	e.PUT("/admin/:admin_id", adminController.UpdateAdmin)
 	e.DELETE("/admin/:admin_id", adminController.DeleteAdmin)
 	return e
 }

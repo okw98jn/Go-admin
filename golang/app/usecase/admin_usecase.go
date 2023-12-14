@@ -9,6 +9,7 @@ type AdminUsecaseInterface interface {
 	GetAllAdmins() ([]model.AdminResponse, error)
 	GetAdminById(adminId uint) (model.AdminResponse, error)
 	CreateAdmin(admin model.Admin) (model.AdminResponse, error)
+	UpdateAdmin(admin model.Admin, adminId uint) (model.AdminResponse, error)
 	DeleteAdmin(adminId uint) error
 }
 
@@ -60,7 +61,7 @@ func (au *adminUsecase) GetAdminById(adminId uint) (model.AdminResponse, error) 
 func (au *adminUsecase) CreateAdmin(admin model.Admin) (model.AdminResponse, error) {
 	if err := au.adminRepo.CreateAdmin(&admin); err != nil {
 		return model.AdminResponse{}, err
-	}	
+	}
 
 	resAdmin := model.AdminResponse{
 		Id:        admin.Id,
@@ -69,6 +70,24 @@ func (au *adminUsecase) CreateAdmin(admin model.Admin) (model.AdminResponse, err
 		Role:      admin.Role,
 		Status:    admin.Status,
 		CreatedAt: admin.CreatedAt,
+		UpdatedAt: admin.UpdatedAt,
+	}
+	return resAdmin, nil
+}
+
+func (au *adminUsecase) UpdateAdmin(admin model.Admin, adminId uint) (model.AdminResponse, error) {
+	if err := au.adminRepo.UpdateAdmin(&admin, adminId); err != nil {
+		return model.AdminResponse{}, err
+	}
+
+	resAdmin := model.AdminResponse{
+		Id:        admin.Id,
+		Name:      admin.Name,
+		LoginId:   admin.LoginId,
+		Role:      admin.Role,
+		Status:    admin.Status,
+		CreatedAt: admin.CreatedAt,
+		UpdatedAt: admin.UpdatedAt,
 	}
 	return resAdmin, nil
 }
