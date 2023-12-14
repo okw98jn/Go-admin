@@ -44,7 +44,7 @@ func (ar *adminRepository) CreateAdmin(admin *model.Admin) error {
 }
 
 func (ar *adminRepository) UpdateAdmin(admin *model.Admin, adminId uint) error {
-	db := ar.db.Model(admin).Where("id = ?", adminId).Updates(admin)
+	db := ar.db.Model(admin).Where("id = ?", adminId).Omit("id").Updates(admin)
 	if db.Error != nil {
 		return db.Error
 	}
